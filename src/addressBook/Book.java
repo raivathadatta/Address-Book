@@ -30,7 +30,8 @@ public class Book {
 			System.out.println("perss 4 to view the  spefic contacts");
 			System.out.println("press 5 to vew all contacts ");
 			System.out.println("Press 6 to get list by CityName or State");
-			System.out.println("press 7  to exit ");
+			System.out.println("Press 7 to sort by Name");
+			System.out.println("press 8  to exit ");
 			int key = getInteger();
 			switch (key) {
 			case 1: {
@@ -59,6 +60,13 @@ public class Book {
 				getPersonByStateOrCityName();
 				break;
 			}
+			case 7: {
+				sortByName();
+				break;
+			}
+			case 8: {
+				check = false;
+			}
 
 			default:
 				System.err.println("input missmatch plz choose the below numbers");
@@ -66,7 +74,20 @@ public class Book {
 		}
 	}
 
-///////////////////////////////////////////////////////////////////
+	public void sortByName() {
+		set.stream().sorted((p1,p2)->p1.getFirstName().compareTo(p2.getFirstName())).forEach(System.out::println);
+		}
+	
+	////////////sortby zipcode///////////////
+	public void sortByZipCode() {
+
+		set.stream().sorted((p1,p2)->p1.getAddress().compareTo(p2.getZipCode())) .forEach(System.out::println);
+
+	}
+
+	
+
+	///////////////////////////////////////////////////////////////////
 	private void viewAllContacts() {
 		if (set.equals(null)) {
 			System.out.println("your contactList is empty please add contacts  to your Address Boolk");
@@ -230,9 +251,9 @@ public class Book {
 		List<Person> list = set.stream().filter(set -> set.getCity().equals(name) || set.getState().equals(name))
 				.collect(Collectors.toList());
 		for (Person person : list) {
-			System.out.println(person.toString());	
+			System.out.println(person.toString());
 		}
-		
+
 	}
 
 ////////////////////count//////////////////

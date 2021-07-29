@@ -5,7 +5,7 @@ public class Person {
 	@Override
 	public String toString() {
 		return "Person [firstName=" + firstName + ", lastName=" + lastName + ", phoneNumber=" + phoneNumber + ", mail="
-				+ mail + ", city=" + city + ", State=" + State + ", Address=" + Address + "]";
+				+ mail + ", city=" + city + ", State=" + State + ", Address=" + Address + ", ZipCode=" + ZipCode + "]";
 	}
 	private String firstName;
 	private String lastName;
@@ -14,6 +14,13 @@ public class Person {
 	private String city;
 	private String State;
 	private String Address;
+	private String ZipCode;
+	public String getZipCode() {
+		return ZipCode;
+	}
+	public void setZipCode(String zipCode) {
+	this.ZipCode = zipCode;
+	}
 	public String getFirstName() {
 		return firstName;
 	}
