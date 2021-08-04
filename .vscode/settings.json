@@ -1,7 +1,6 @@
 {
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
-        "c:\\Users\\Lenovo\\Downloads\\opencsv-5.5.1.jar",
-        "c:\\Users\\Lenovo\\Downloads\\commons-compress-1.18.0.wso2v1.jar"
+        "c:\\Users\\Lenovo\\Downloads\\opencsv-5.5.1.jar"
     ]
 }

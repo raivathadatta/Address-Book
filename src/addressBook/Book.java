@@ -1,13 +1,19 @@
 package addressBook;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import org.json.simple.parser.ParseException;
+
+import com.opencsv.exceptions.CsvDataTypeMismatchException;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 
 public class Book extends Thread{
 	FileOperations fileOperations=new FileOperations();
 	public Scanner scanner = new Scanner(System.in);
-	public ArrayList<Person> set = new ArrayList<Person>();
-
+	public static ArrayList<Person> set = new ArrayList<Person>();
+	public FileOperations fileOperations2 =new FileOperations();
 	public String getString() {
 
 		String send2 = scanner.nextLine();
@@ -20,7 +26,7 @@ public class Book extends Thread{
 	}
 
 /////////////////////////menu///////////////////////////////////////////
-	public synchronized void menu() {
+	public synchronized void menu() throws CsvDataTypeMismatchException, CsvRequiredFieldEmptyException, IOException, ParseException {
 		boolean check = true;
 		while (check) {
 
@@ -32,10 +38,16 @@ public class Book extends Thread{
 			System.out.println("Press 6 to get list by CityName or State");
 			System.out.println("Press 7 to sort by Name");
 			System.out.println("press 8  to exit ");
+			System.out.println("9->to write data from csv");
+			System.out.println("10->to read into csv");
+			System.out.println("11->to read data from json");
+			System.out.println("12->to read data from text");
+			System.out.println("13->to write data into text");
+			
 			int key = getInteger();
 			switch (key) {
 			case 1: {
-				addPreson();
+			fileOperations.addPreson();
 				break;
 			}
 			case 2: {
@@ -44,7 +56,7 @@ public class Book extends Thread{
 			}
 			case 3: {
 
-				delete();
+				fileOperations.delete();
 				break;
 			}
 			case 4: {
@@ -57,7 +69,7 @@ public class Book extends Thread{
 				break;
 			}
 			case 6: {
-				getPersonByStateOrCityName();
+			fileOperations.getPersonByStateOrCityName();
 				break;
 			}
 			case 7: {
@@ -68,7 +80,29 @@ public class Book extends Thread{
 				check = false;
 				break;
 			}
-
+			case 9: {
+				fileOperations.intoCsvFile("F:/csvFile.csv",set);
+				break;
+			}
+			case 10: {
+				fileOperations.readFromCsvFile("F:/csvFile.csv");
+				break;
+			}
+			case 11: {
+				fileOperations.readDataFromJson();
+				break;
+			}
+			
+		case 12: {
+			fileOperations.intoFile(set);
+			break;
+		}
+	case 13: {
+		
+		fileOperations.readFromFile();
+		break;
+	}
+			
 			default:
 				return;
 			}
@@ -89,7 +123,7 @@ public class Book extends Thread{
 	
 
 	///////////////////////////////////////////////////////////////////
-	private void viewAllContacts() {
+	public void viewAllContacts() {
 		if (set.equals(null)) {
 			System.out.println("your contactList is empty please add contacts  to your Address Boolk");
 			// addContact();
@@ -101,7 +135,7 @@ public class Book extends Thread{
 	}
 
 /////////////////////////////////////////////////////////////////////////////////
-	private void viewSpecificContaact() {
+	public void viewSpecificContaact() {
 		System.out.println("enter teh name of contact you need to view");
 		scanner.nextLine();
 		String name = getString();
@@ -133,16 +167,16 @@ public class Book extends Thread{
 			switch (key) {
 			case 1: {
 
-				updatePhoneNumber(name);
+			fileOperations.	updatePhoneNumber(name);
 				break;
 			}
 			case 2: {
-				updateMail(name);
+			fileOperations.	updateMail(name);
 				break;
 
 			}
 			case 3: {
-				updateAddress(name);
+				fileOperations.	updateAddress(name);
 				break;
 			}
 			case 4: {
@@ -157,110 +191,5 @@ public class Book extends Thread{
 	}
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-	private void addPreson() {
-		// System.out.println(" enter the person details first name , last name ,phone
-		// number , mail , address ");
-		Person person = new Person();
-		System.out.println("enter the person Firstname");
-		scanner.nextLine();
-		String name = getString();
-		person.setFirstName(name);
-		System.out.println("enter the last name");
-		person.setLastName(getString());
-		System.out.println("enter phone number");
-		person.setPhoneNumber(getString());
-		System.out.println("enter Mailling Address");
-		person.setMail(getString());
-		System.out.println("enter city Name");
-		person.setCity(getString());
-		System.out.println("enter State Name");
-		person.setState(getString());
-		System.out.println("enter Address");
-		String address = getString();
-		person.setAddress(address);
-		set.add(person);// (person.getFirstName(),person);
-		
-	}
-
-//////////////////////////////////////////////////////////
-	private void updateAddress(String name) {
-		// Person person;
-		for (Person person1 : set) {
-			if (name.equals(person1.getFirstName()) || name.equals(person1.getLastName())) {
-				System.out.println("enter address to be changed ");
-				person1.setAddress(getString());
-			} else
-				System.out.println("the person you want to update is not avilabul");
-
-		}
-	}
-
-///////////////////////////////////////////////////////////
-	public void updatePhoneNumber(String name) {
-		// Person person;
-
-		for (Person person : set) {
-
-			if (name.equals(person.getFirstName()) || name.equals(person.getLastName())) {
-				System.out.println("enter PhoneNumber to be changed ");
-				scanner.nextLine();
-				person.setPhoneNumber(getString());
-				System.out.println(person.toString());
-			} else
-				System.out.println("the person you want to update is not avilabul");
-
-		}
-	}
-
-///////////////////////////////////////////////////
-	private void updateMail(String name) {
-		// Person person;
-		for (Person person : set) {
-			if (name.equals(person.getFirstName()) || name.equals(person.getLastName())) {
-				System.out.println("enter Mail to be changed ");
-				scanner.nextLine();
-				person.setMail(getString());
-				System.out.println(person.toString());
-			} else
-				System.out.println("the person you want to update is not avilabul");
-
-		}
-	}
-
-///////////////////////delete///////////////
-	private void delete() {
-		scanner.nextLine();
-		String name = getString();
-		for (Person person : set) {
-			if (name.equals(person.getLastName()) || name.equals(person.getLastName())) {
-				set.remove(person);
-
-			}
-		}
-	}
-
-///////////////////////checking for duplicate values and removing it from list//////////
-	public void getPersonByStateOrCityName() {
-		System.out.println("enter the city or state name");
-		String name = scanner.next();
-		List<Person> list = set.stream().filter(set -> set.getCity().equals(name) || set.getState().equals(name))
-				.collect(Collectors.toList());
-		for (Person person : list) {
-			System.out.println(person.toString());
-		}
-
-	}
-
-////////////////////count//////////////////
-	public void countDistintCity() {
-		System.out.println("enter the city or state name");
-		String name = scanner.next();
-		long total = set.stream().filter(set -> set.getCity().equals(name) || set.getState().equals(name)).distinct()
-				.count();
-		System.out.println(total);
-	}
-
-	public ArrayList<Person> getList() {
-	return set;
-    }
+	
 }
