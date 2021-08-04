@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 public class Book extends Thread{
 	FileOperations fileOperations=new FileOperations();
 	public Scanner scanner = new Scanner(System.in);
-	public HashSet<Person> set = new HashSet<>();
+	public ArrayList<Person> set = new ArrayList<Person>();
 
 	public String getString() {
 
@@ -260,7 +260,7 @@ public class Book extends Thread{
 		System.out.println(total);
 	}
 
-	public HashSet<Person> getList() {
+	public ArrayList<Person> getList() {
 	return set;
     }
 }
