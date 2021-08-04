@@ -10,10 +10,15 @@ import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 
 public class Book extends Thread{
-	FileOperations fileOperations=new FileOperations();
+	private static final String JsonPath  ="F:\\person.json" ;
+	
+	public  static FileOperations fileOperations=new FileOperations();
+	
 	public Scanner scanner = new Scanner(System.in);
+	
 	public static ArrayList<Person> set = new ArrayList<Person>();
-	public FileOperations fileOperations2 =new FileOperations();
+	
+	
 	public String getString() {
 
 		String send2 = scanner.nextLine();
@@ -39,7 +44,7 @@ public class Book extends Thread{
 			System.out.println("Press 7 to sort by Name");
 			System.out.println("press 8  to exit ");
 			System.out.println("9->to write data from csv");
-			System.out.println("10->to read into csv");
+			System.out.println("10->to read from csv");
 			System.out.println("11->to read data from json");
 			System.out.println("12->to read data from text");
 			System.out.println("13->to write data into text");
@@ -81,7 +86,7 @@ public class Book extends Thread{
 				break;
 			}
 			case 9: {
-				fileOperations.intoCsvFile("F:/csvFile.csv",set);
+				fileOperations.intoCsvFile("F:\\csvFile.csv",set);
 				break;
 			}
 			case 10: {
@@ -89,7 +94,7 @@ public class Book extends Thread{
 				break;
 			}
 			case 11: {
-				fileOperations.readDataFromJson();
+				fileOperations.readDataFromJson(JsonPath);
 				break;
 			}
 			
