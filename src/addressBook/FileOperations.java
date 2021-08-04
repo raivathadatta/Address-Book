@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -23,7 +24,7 @@ import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 
 import org.*;
 
-public class FileOperations extends Book{
+public class FileOperations extends Book {
 	public String getString() {
 
 		String send2 = scanner.nextLine();
@@ -35,11 +36,10 @@ public class FileOperations extends Book{
 		return scanner.nextInt();
 	}
 
-	Scanner scanner =new Scanner(System.in);
+	Scanner scanner = new Scanner(System.in);
 	private final static String path = "F:/AddressBook.txt";
-	ArrayList<Person> retriveList = new ArrayList<Person>();
-//	ArrayList<Person> set = new ArrayList<>();
-	
+
+
 	public void intoFile(ArrayList<Person> set) {
 		StringBuffer buffer = new StringBuffer();
 		set.forEach(Person -> {
@@ -53,7 +53,7 @@ public class FileOperations extends Book{
 
 		}
 	}
-
+//////read from text file 
 	public void readFromFile() {
 		try {
 			Files.lines(new File(path).toPath()).forEach(System.out::println);
@@ -63,7 +63,7 @@ public class FileOperations extends Book{
 			e.printStackTrace();
 		}
 	}
-
+///////read data from csv file
 	public void readFromCsvFile(String path) throws FileNotFoundException {
 		System.out.println("out put from csv file");
 		Scanner sc = new Scanner(new File(path));
@@ -73,59 +73,47 @@ public class FileOperations extends Book{
 		}
 		sc.close();
 	}
-
+////////////write into csv file////
 	public void intoCsvFile(String path, ArrayList<Person> list)
 			throws IOException, CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
+	
+		System.out.println("hai");
+		
+		File file = new File(path);
+		
+		if(!file.exists())
+			file.createNewFile();
+		
+		System.out.println(path);
+		
+		System.out.println("file created");
+		
 		FileWriter outputfile = new FileWriter(path);
 
 		CSVWriter writer = new CSVWriter(outputfile);
 
 		writer.close();
 	}
+///////read from json file////////
+	public void readDataFromJson(String path) throws FileNotFoundException, IOException, ParseException {
+		File file = new File(path);
+		
+		if(!file.exists())
+			file.createNewFile();
+		JSONParser parser = new JSONParser();
 
-	public void readDataFromJson() throws FileNotFoundException, IOException, ParseException {
-		JSONParser jsonParser = new JSONParser();
+		Object obj = parser.parse(new FileReader(path));
 
-		try (FileReader reader = new FileReader("F:/person.json")) {
-			// Read JSON file
-			Object obj = jsonParser.parse(reader);
+		JSONObject jsonObject = (JSONObject) obj;
 
-			JSONArray personList = (JSONArray) obj;
-			System.out.println(personList);
+		JSONArray list = (JSONArray) jsonObject.get("PersonsList");
 
-			// Iterate over employee array
-			personList.forEach(person -> parsePersonObject((JSONObject) person));
-			personList.forEach(person -> set.add((Person) person));
-		}
+		list.stream().forEach(person -> list.add(person));
 
 	}
 
-	private static void parsePersonObject(JSONObject person) {
-		// Get employee object within list
-		JSONObject employeeObject = (JSONObject) person.get("employee");
-
-		// Get employee first name
-		String firstName = (String) person.get("firstName");
-		System.out.println(firstName);
-
-		// Get employee last name
-		String lastName = (String) person.get("lastName");
-		System.out.println(lastName);
-
-		String phoneNumber = (String) person.get("phoneNumber");
-		System.out.println(phoneNumber);
-		String mail = (String) person.get("mail");
-		System.out.println(mail);
-		String city = (String) person.get("city");
-		System.out.println(city);
-		String State = (String) person.get("State");
-		System.out.println(State);
-		String Address = (String) person.get("Address");
-		System.out.println(State);
-		String ZipCode = (String) person.get("ZipCode");
-		System.out.println(ZipCode);
-	}
-
+	
+////////////////////////////////add person to list //////////////////////////////////
 
 	public void addPreson() {
 		// System.out.println(" enter the person details first name , last name ,phone
@@ -149,10 +137,10 @@ public class FileOperations extends Book{
 		String address = getString();
 		person.setAddress(address);
 		set.add(person);// (person.getFirstName(),person);
-		
+
 	}
 
-//////////////////////////////////////////////////////////
+//////////////////////update ////////////////////////////////////
 	public void updateAddress(String name) {
 		// Person person;
 		for (Person person1 : set) {
@@ -231,7 +219,7 @@ public class FileOperations extends Book{
 	}
 
 	public ArrayList<Person> getList() {
-	return set;
-    }
-	
+		return set;
+	}
+
 }
