@@ -3,10 +3,10 @@ package addressBook;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Book {
-
-	Scanner scanner = new Scanner(System.in);
-	Set<Person> set = new HashSet<>();
+public class Book extends Thread{
+	FileOperations fileOperations=new FileOperations();
+	public Scanner scanner = new Scanner(System.in);
+	public HashSet<Person> set = new HashSet<>();
 
 	public String getString() {
 
@@ -20,7 +20,7 @@ public class Book {
 	}
 
 /////////////////////////menu///////////////////////////////////////////
-	public void menu() {
+	public synchronized void menu() {
 		boolean check = true;
 		while (check) {
 
@@ -66,10 +66,11 @@ public class Book {
 			}
 			case 8: {
 				check = false;
+				break;
 			}
 
 			default:
-				System.err.println("input missmatch plz choose the below numbers");
+				return;
 			}
 		}
 	}
@@ -113,17 +114,10 @@ public class Book {
 		}
 	}
 
-	/*
-	 * private void addContact() { System.out.
-	 * println("if you want the contact to be add plz press 1 or to exit 2"); int
-	 * key = scanner.nextInt(); switch (key) { case 1: addPreson(); break; case 2:
-	 * break; }
-	 * 
-	 * }
-	 */
+
 ///////////////////////////////////////////////////////////////////////////////////////
 	private void updateMenu() {
-		// TODO Auto-generated method stub
+	
 
 		System.out.println("enter the person name to update ");
 		scanner.nextLine();
@@ -185,6 +179,7 @@ public class Book {
 		String address = getString();
 		person.setAddress(address);
 		set.add(person);// (person.getFirstName(),person);
+		
 	}
 
 //////////////////////////////////////////////////////////
@@ -265,4 +260,7 @@ public class Book {
 		System.out.println(total);
 	}
 
+	public HashSet<Person> getList() {
+	return set;
+    }
 }
