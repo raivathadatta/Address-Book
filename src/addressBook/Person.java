@@ -10,8 +10,21 @@ public class Person {
 	private String firstName;
 	private String lastName;
 	private String phoneNumber;
+	
 	private String mail;
 	private String city;
+	public Person() {	}
+	public Person(String firstName, String lastName, String phoneNumber, String mail, String city, String state,
+			String address, String zipCode) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.phoneNumber = phoneNumber;
+		this.mail = mail;
+		this.city = city;
+		State = state;
+		Address = address;
+		ZipCode = zipCode;
+	}
 	private String State;
 	private String Address;
 	private String ZipCode;
